@@ -1,5 +1,6 @@
-from django.apps import AppConfig
+# from django.apps import AppConfig
 
 
-class RelationshipAppConfig(AppConfig):
-    name = 'relationship_app'
+# class RelationshipAppConfig(AppConfig):
+#     name = 'relationship_app'
+
