@@ -1,36 +1,17 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+
+# Create your models here.
 
 
-class CustomUser(AbstractUser):
-    date_of_birth = models.DateField(null=True, blank=True)
-    profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
-
-    def __str__(self):
-        return self.username
-    
-
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-
-
-class CustomUser(AbstractUser):
-    date_of_birth = models.DateField(null=True, blank=True)
-    profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
+# Create a Book class with the following fields:
+# title: CharField with a maximum length of 200 characters.
+# author: CharField with a maximum length of 100 characters.
+# publication_year: IntegerField.
+class Book:
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=100)
+    publication_year = models.IntegerField()
 
     def __str__(self):
-        return self.username
+     return self.title
 
-
-class Book(models.Model):
-    title = models.CharField(max_length=255)
-    author = models.CharField(max_length=255)
-
-    class Meta:
-        permissions = [
-            ("can_create", "Can create book"),
-            ("can_delete", "Can delete book"),
-        ]
-
-    def __str__(self):
-        return self.title
