@@ -17,3 +17,21 @@ def create_book(request):
 @permission_required("bookshelf.can_delete", raise_exception=True)
 def delete_book(request):
     return render(request, "bookshelf/delete_book.html")
+
+
+from django.shortcuts import render
+from .forms import ExampleForm
+
+def example_form_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Process the data securely
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            # For now, just render success
+            return render(request, 'bookshelf/form_example.html', {'form': form, 'success': True})
+    else:
+        form = ExampleForm()
+    return render(request, 'bookshelf/form_example.html', {'form': form})
