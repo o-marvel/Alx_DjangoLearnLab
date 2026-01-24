@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Book</title>
+</head>
+<body>
+    <h1>Create Book</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Title:</label>
+        <input type="text" name="title">
+
+        <label>Author:</label>
+        <input type="text" name="author">
+
+        <button type="submit">Create</button>
+    </form>
+</body>
+</html>
