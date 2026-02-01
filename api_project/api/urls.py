@@ -14,3 +14,4 @@ urlpatterns = [
     # New full CRUD endpoints (router)
     path('', include(router.urls)),
 ]
+
