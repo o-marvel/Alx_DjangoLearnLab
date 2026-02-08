@@ -7,14 +7,21 @@ from .views import (
     BookDeleteView
 )
 
-urlpatterns = [
+"""
+API Routing Configuration for Book CRUD operations
+"""
 
-        # Read operations (public access)
+urlpatterns = [
+    # READ (Public)
     path("books/", BookListView.as_view(), name="book-list"),
     path("books/<int:pk>/", BookDetailView.as_view(), name="book-detail"),
 
-    # Write operations (protected)
+    # CREATE (Protected)
     path("books/create/", BookCreateView.as_view(), name="book-create"),
+
+    # UPDATE (Protected)
     path("books/<int:pk>/update/", BookUpdateView.as_view(), name="book-update"),
+
+    # DELETE (Protected)
     path("books/<int:pk>/delete/", BookDeleteView.as_view(), name="book-delete"),
 ]
