@@ -1,65 +1,89 @@
-from rest_framework import generics
+from rest_framework import generics, permissions, filters
 from .models import Book
 from .serializers import BookSerializer
 
 # ==========================
-# List all books
-# GET /api/books/
+# LIST VIEW (Public)
 # ==========================
 class BookListView(generics.ListAPIView):
     """
-    Retrieves a list of all books in the system.
+    Retrieves all books.
+    Public endpoint (no authentication required).
+    Supports filtering and searching.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [permissions.AllowAny]
+
+    # Filtering & searching
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title', 'author__name']
+    ordering_fields = ['publication_year', 'title']
 
 
 # ==========================
-# Retrieve a single book
-# GET /api/books/<id>/
+# DETAIL VIEW (Public)
 # ==========================
 class BookDetailView(generics.RetrieveAPIView):
     """
-    Retrieves a single book by its ID.
+    Retrieves a single book by ID.
+    Public endpoint.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = "id"
+    permission_classes = [permissions.AllowAny]
 
 
 # ==========================
-# Create a new book
-# POST /api/books/create/
+# CREATE VIEW (Protected)
 # ==========================
 class BookCreateView(generics.CreateAPIView):
     """
-    Creates a new book record.
+    Creates a new book.
+    Only authenticated users can create books.
+    Includes validation handling.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        """
+        Custom hook to control object creation.
+        Ensures validation runs and allows future extension
+        (e.g logging, ownership, audit tracking).
+        """
+        serializer.save()
 
 
 # ==========================
-# Update an existing book
-# PUT /api/books/<id>/update/
+# UPDATE VIEW (Protected)
 # ==========================
 class BookUpdateView(generics.UpdateAPIView):
     """
-    Updates an existing book by ID.
+    Updates an existing book.
+    Only authenticated users allowed.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = "id"
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_update(self, serializer):
+        """
+        Custom update hook.
+        Can be extended for versioning, audit logs, etc.
+        """
+        serializer.save()
 
 
 # ==========================
-# Delete a book
-# DELETE /api/books/<id>/delete/
+# DELETE VIEW (Protected)
 # ==========================
 class BookDeleteView(generics.DestroyAPIView):
     """
-    Deletes a book by ID.
+    Deletes a book.
+    Only authenticated users allowed.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = "id"
+    permission_classes = [permissions.IsAuthenticated]
