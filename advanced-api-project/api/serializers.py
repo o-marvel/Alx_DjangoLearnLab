@@ -29,9 +29,7 @@ class BookSerializer(serializers.ModelSerializer):
     # This method validates the publication_year field.
     # It prevents saving a book with a future year.
     #
-    # Example:
-    # 2035 → ❌ Invalid
-    # 2020 → ✅ Valid
+
     # ---------------------------------------------------
     def validate_publication_year(self, value):
         current_year = timezone.now().year
