@@ -12,7 +12,7 @@ API Routing Configuration for Book CRUD operations
 """
 
 urlpatterns = [
-       path("books/list", BookListView.as_view(), name="book-list"),
+    path("books/list", BookListView.as_view(), name="book-list"),
     path("books/create", BookCreateView.as_view(), name="book-create"),
     path("books/<int:pk>/", BookDetailView.as_view(), name="book-detail"),
     path("books/update/<int:pk>/", BookUpdateView.as_view(), name="book-update"),

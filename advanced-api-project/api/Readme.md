@@ -31,3 +31,5 @@
 - DRF permission system
 - Authentication enforcement
 - API-ready for JWT integration
+
+
