@@ -1,0 +1,18 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+<h2>Register</h2>
+
+<form method="POST" action = "/register.html">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+
+{% endblock %}
