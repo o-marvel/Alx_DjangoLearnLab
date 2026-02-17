@@ -12,11 +12,11 @@ from .views import (
 
 urlpatterns = [
 
-    path('posts/', PostListView.as_view(), name='posts'),
-    path('posts/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
-    path('posts/new/', PostCreateView.as_view(), name='post_create'),
-    path('posts/<int:pk>/edit/', PostUpdateView.as_view(), name='post_update'),
-    path('posts/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
+    path('post/', PostListView.as_view(), name='posts'),
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
+    path('post/new/', PostCreateView.as_view(), name='post_create'),
+    path('post/<int:pk>/edit/', PostUpdateView.as_view(), name='post_update'),
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
 
     path('', views.home, name='home'),
     path('register/', views.register, name='register'),
