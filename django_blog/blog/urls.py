@@ -42,7 +42,7 @@ urlpatterns += [
          CommentCreateView.as_view(),
          name='comment_create'),
 
-    path('comment/<int:pk>/edit/',
+    path('comment/<int:pk>/update/',
          CommentUpdateView.as_view(),
          name='comment_update'),
 
