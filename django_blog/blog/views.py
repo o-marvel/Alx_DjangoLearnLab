@@ -184,9 +184,7 @@ class PostsByTagView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self):
-        tag_name = self.kwargs['tag_name']
-        return Post.objects.filter(tags__name=tag_name)
-
+        return Post.objects.filter(tags__slug=self.kwargs['tag_slug'])
 
 class SearchResultsView(ListView):
     model = Post

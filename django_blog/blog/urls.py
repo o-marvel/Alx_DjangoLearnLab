@@ -58,7 +58,7 @@ from .views import (
 urlpatterns += [
 
     path(
-        'tags/<str:tag_name>/',
+        'tags/<slug:tag_slug>/',
         PostsByTagView.as_view(),
         name='posts_by_tag'
     ),
