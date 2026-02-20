@@ -178,7 +178,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
-class PostByTagView(ListView):
+class PostByTagListView(ListView):
     model = Post
     template_name = 'blog/post_list.html'
     context_object_name = 'posts'
