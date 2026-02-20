@@ -51,7 +51,7 @@ urlpatterns += [
          name='comment_delete'),
 ]
 from .views import (
-    PostsByTagView,
+    PostByTagView,
     SearchResultsView,
 )
 
@@ -59,9 +59,10 @@ urlpatterns += [
 
     path(
         'tags/<slug:tag_slug>/',
-        PostsByTagView.as_view(),
+        PostByTagView.as_view(),
         name='posts_by_tag'
     ),
+
 
     path(
         'search/',
