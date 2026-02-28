@@ -5,6 +5,11 @@ from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
 
+from rest_framework import generics, permissions
+from .models import Post
+from .serializers import PostSerializer
+
+
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
@@ -25,9 +30,6 @@ class CommentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
-from rest_framework import generics, permissions
-from .models import Post
-from .serializers import PostSerializer
 
 class FeedView(generics.ListAPIView):
     serializer_class = PostSerializer
@@ -40,6 +42,18 @@ class FeedView(generics.ListAPIView):
         return Post.objects.filter(
             author__in=following_users
         ).order_by("-created_at")
+    
+# from rest_framework.views import APIView
+# class FeedView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+
+#     def get(self, request):
+#         following_users = request.user.following.all()
+
+#         posts = Post.objects.filter(author__in=following_users).order_by("-created_at").select_related("author")
+
+#         serializer = PostSerializer(posts, many=True)
+#         return Response(serializer.data)
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -62,3 +76,15 @@ def follow_user(request, user_id):
     request.user.following.add(user_to_follow)
 
     return Response({"message": f"You are now following {user_to_follow.username}"})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_feed(request):
+    followed_users = request.user.following.all()
+    posts = Post.objects.filter(
+        author__in=followed_users
+    ).order_by('-created_at')
+
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
