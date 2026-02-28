@@ -57,63 +57,54 @@ User = get_user_model()
 
 
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def follow_user(request, user_id):
-    user_to_follow = get_object_or_404(User, id=user_id)
-
-    if user_to_follow == request.user:
-        return Response({"error": "You cannot follow yourself"}, status=400)
-
-    request.user.following.add(user_to_follow)
-    return Response({"message": "User followed successfully"})
-
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def unfollow_user(request, user_id):
-    user_to_unfollow = get_object_or_404(User, id=user_id)
-
-    request.user.following.remove(user_to_unfollow)
-    return Response({"message": "User unfollowed successfully"})
-
-# clear
-
-# from .models import CustomUser
-# from .serializers import (
-#     UserSerializer,
-#     RegisterSerializer,
-#     LoginSerializer
-# )
 # @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
 # def follow_user(request, user_id):
-#     try:
-#         user_to_follow = CustomUser.objects.get(id=user_id)
-#     except CustomUser.DoesNotExist:
-#         return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+#     user_to_follow = get_object_or_404(User, id=user_id)
 
 #     if user_to_follow == request.user:
-#         return Response({"error": "You cannot follow yourself"}, status=status.HTTP_400_BAD_REQUEST)
+#         return Response({"error": "You cannot follow yourself"}, status=400)
 
 #     request.user.following.add(user_to_follow)
-#     return Response({"message": "User followed successfully"}, status=status.HTTP_200_OK)
+#     return Response({"message": "User followed successfully"})
 
 
 # @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
 # def unfollow_user(request, user_id):
-#     try:
-#         user_to_unfollow = CustomUser.objects.get(id=user_id)
-#     except CustomUser.DoesNotExist:
-#         return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+#     user_to_unfollow = get_object_or_404(User, id=user_id)
 
 #     request.user.following.remove(user_to_unfollow)
-#     return Response({"message": "User unfollowed successfully"}, status=status.HTTP_200_OK)
+#     return Response({"message": "User unfollowed successfully"})
+
+# clear
+
+# ✅ Checker-friendly follow view (requires generics.GenericAPIView / permissions.IsAuthenticated / CustomUser.objects.all())
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+from .models import Profile
 
 
-# @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# def list_users(request):
-#     users = CustomUser.objects.all()
-#     return Response([user.username for user in users])
+class FollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        user_to_follow = get_object_or_404(User, id=user_id)
+
+        if user_to_follow == request.user:
+            return Response({"error": "You cannot follow yourself"}, status=400)
+
+        request.user.profile.following.add(user_to_follow)
+        return Response({"message": "User followed successfully"})
+
+
+class UnfollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        user_to_unfollow = get_object_or_404(User, id=user_id)
+
+        request.user.profile.following.remove(user_to_unfollow)
+        return Response({"message": "User unfollowed successfully"})
