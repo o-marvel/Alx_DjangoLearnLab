@@ -148,6 +148,8 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
+PORT = os.environ.get("PORT", 8000)
+
 STATIC_URL = 'static/'
 
 AUTH_USER_MODEL = 'accounts.User'
