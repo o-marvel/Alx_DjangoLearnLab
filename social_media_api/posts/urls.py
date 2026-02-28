@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from .views import PostViewSet, CommentViewSet
+from .views import PostViewSet, CommentViewSet, LikePostView, UnlikePostView
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet)
@@ -15,4 +15,7 @@ from . import views
 urlpatterns += [
     path("feed/", FeedView.as_view(), name="feed"),
     path('feed/', views.user_feed),
+
+    path('<int:pk>/like/', LikePostView.as_view()),
+    path('<int:pk>/unlike/', UnlikePostView.as_view()),
 ]
